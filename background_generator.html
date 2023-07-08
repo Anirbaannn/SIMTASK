@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Animated Background Generator</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.5s ease;
+    }
+
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .shape {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.8);
+      transform-origin: center;
+      animation-duration: 5s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    .circle {
+      border-radius: 50%;
+      animation-name: moveCircle;
+    }
+
+    .triangle {
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      animation-name: moveTriangle;
+    }
+
+    .square {
+      border-radius: 0;
+      animation-name: moveSquare;
+    }
+
+    .pentagon {
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+      animation-name: movePentagon;
+    }
+
+    .shape:nth-child(1) {
+      top: 50px;
+      left: 50px;
+      animation-delay: -2s;
+    }
+
+    .shape:nth-child(2) {
+      top: 50px;
+      right: 50px;
+      animation-delay: -4s;
+    }
+
+    .shape:nth-child(3) {
+      bottom: 50px;
+      left: 50px;
+      animation-delay: -6s;
+    }
+
+    .shape:nth-child(4) {
+      bottom: 50px;
+      right: 50px;
+      animation-delay: -8s;
+    }
+
+    @keyframes moveCircle {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(70vw, 30vh) rotate(180deg);
+      }
+    }
+
+    @keyframes moveTriangle {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(-70vw, 30vh) rotate(180deg);
+      }
+    }
+
+    @keyframes moveSquare {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(-70vw, -30vh) rotate(180deg);
+      }
+    }
+
+    @keyframes movePentagon {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(70vw, -30vh) rotate(180deg);
+      }
+    }
+
+    .generate-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+    <div class="shape square"></div>
+    <div class="shape pentagon"></div>
+  </div>
+
+  <button class="generate-button" onclick="generateBackground()">Generate</button>
+
+  <script>
+    const shapes = document.querySelectorAll('.shape');
+    const generateButton = document.querySelector('.generate-button');
+    const colors = ['rgba(255, 255, 255, 0.8)', 'rgba(255, 255, 255, 0.7)', 'rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.4)'];
+    const gradients = ['linear-gradient(to right, #667eea, #764ba2)', 'linear-gradient(to right, #ffa6c1, #ffb6d1)', 'linear-gradient(to right, #f6d365, #fda085)', 'linear-gradient(to right, #74ebd5, #acb6e5)', 'linear-gradient(to right, #fe8c00, #f83600)'];
+
+    function generateBackground() {
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+
+      shapes.forEach(shape => {
+        shape.style.background = randomColor;
+        shape.style.animationName = randomShape();
+      });
+
+      document.body.style.background = randomGradient;
+    }
+
+    function randomShape() {
+      const shapeNames = ['moveCircle', 'moveTriangle', 'moveSquare', 'movePentagon'];
+      return shapeNames[Math.floor(Math.random() * shapeNames.length)];
+    }
+
+    generateBackground();
+    generateButton.addEventListener('click', generateBackground);
+  </script>
+</body>
+</html>
